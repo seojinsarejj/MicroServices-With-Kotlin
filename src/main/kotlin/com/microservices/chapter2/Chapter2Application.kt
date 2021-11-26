@@ -1,5 +1,6 @@
 package com.microservices.chapter2
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.stereotype.Controller
@@ -13,10 +14,13 @@ class Chapter2Application
 
 @Controller
 class FirstController(val exampleService: ExampleService) {
+
+	@Autowired
+	lateinit var service: ExampleService
+
 	@RequestMapping(value = ["/user/{name}"], method = arrayOf(RequestMethod.GET))
 	@ResponseBody
-	fun hello(@PathVariable name: String) =
-			exampleService.getHello(name)
+	fun hello(@PathVariable name: String) = service.getHello(name)
 }
 
 fun main(args: Array<String>) {

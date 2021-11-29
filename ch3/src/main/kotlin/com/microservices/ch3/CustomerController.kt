@@ -10,5 +10,9 @@ class CustomerController {
     lateinit var customers : ConcurrentHashMap<Int, Customer>
 
     @RequestMapping(value = ["/customer"], method = arrayOf(RequestMethod.GET))
-    fun getCustomer() = customers.map(Map.Entry<Int, Customer>::value).toList()
+    fun getCustomer(@RequestParam(required = false, defaultValue = "")
+    nameFilter: String) =
+        customers.filter {
+            it.value.name.contains(nameFilter, true)
+        }.map(Map.Entry<Int, Customer>::value).toList()
 }

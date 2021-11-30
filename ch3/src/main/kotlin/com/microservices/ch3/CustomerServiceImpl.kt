@@ -10,23 +10,23 @@ class CustomerServiceImpl : CustomerService {
     }
     val customers = ConcurrentHashMap<Int, Customer>(initialCustomers.associateBy(Customer::id))
 
-    override fun getCustomer(id: Int): Customer? {
-        TODO("Not yet implemented")
-    }
+    override fun getCustomer(id: Int) = customers[id]
 
     override fun createCustomer(customer: Customer) {
-        TODO("Not yet implemented")
+        customers[customer.id] = customer
     }
 
     override fun deleteCustomer(id: Int) {
-        TODO("Not yet implemented")
+        customers.remove(id)
     }
 
     override fun updateCustomer(id: Int, customer: Customer) {
-        TODO("Not yet implemented")
+        deleteCustomer(id)
+        createCustomer(customer)
     }
 
-    override fun searchCustomer(nameFilter: String): List<Customer> {
-        TODO("Not yet implemented")
-    }
+    override fun searchCustomer(nameFilter: String): List<Customer> =
+        customers.filter {
+            it.value.name.contains(nameFilter, true)
+        }.map(Map.Entry<Int, Customer>::value).toList()
 }

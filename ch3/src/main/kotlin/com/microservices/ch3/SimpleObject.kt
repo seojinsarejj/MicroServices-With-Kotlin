@@ -1,7 +1,3 @@
 package com.microservices.ch3
 
-class SimpleObject {
-    public val name = "hello"
-    private val place = "world"
-    public fun getPlace() = place
-}
+data class SimpleObject (var name: String = "hello", var place: String = "world")

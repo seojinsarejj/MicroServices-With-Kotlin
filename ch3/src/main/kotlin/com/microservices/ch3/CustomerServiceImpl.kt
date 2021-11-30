@@ -1,7 +1,9 @@
 package com.microservices.ch3
 
+import org.springframework.stereotype.Component
 import java.util.concurrent.ConcurrentHashMap
 
+@Component
 class CustomerServiceImpl : CustomerService {
     companion object {
         val initialCustomers = arrayOf(Customer(1,"Kotlin"),

@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest
 class ErrorHandler {
     @ExceptionHandler(JsonParseException::class)
     fun JsonParseExceptionHandler(servletRequest: HttpServletRequest,
-                                    exception: Exception): ResponseEntity<String> {
-        return ResponseEntity("JSON Error", HttpStatus.BAD_REQUEST)
+                                    exception: Exception): ResponseEntity<ErrorResponse> {
+        return ResponseEntity(ErrorResponse("JSON Error", exception.message ?: "invalid json"),
+            HttpStatus.BAD_REQUEST)
     }
 }

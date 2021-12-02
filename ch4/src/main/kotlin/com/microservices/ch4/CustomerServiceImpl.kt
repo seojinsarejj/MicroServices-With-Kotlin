@@ -2,6 +2,8 @@ package com.microservices.ch4
 
 import com.microservices.ch4.Customer.Telephone
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Flux
+import reactor.core.publisher.toFlux
 import reactor.core.publisher.toMono
 import reactor.kotlin.core.publisher.toMono
 import java.util.concurrent.ConcurrentHashMap
@@ -17,9 +19,9 @@ class CustomerServiceImpl : CustomerService {
 
     override fun getCustomer(id: Int) = customers[id]?.toMono()
 
-    override fun searchCustomer(nameFilter: String): List<Customer> =
+    override fun searchCustomer(nameFilter: String): Flux<Customer> =
         customers.filter {
             it.value.name.contains(nameFilter, true)
-        }.map(Map.Entry<Int, Customer>::value).toList()
+        }.map(Map.Entry<Int, Customer>::value).toFlux()
 
 }

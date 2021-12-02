@@ -2,6 +2,8 @@ package com.microservices.ch4
 
 import com.microservices.ch4.Customer.Telephone
 import org.springframework.stereotype.Component
+import reactor.core.publisher.toMono
+import reactor.kotlin.core.publisher.toMono
 import java.util.concurrent.ConcurrentHashMap
 
 @Component
@@ -13,7 +15,7 @@ class CustomerServiceImpl : CustomerService {
     }
     val customers = ConcurrentHashMap<Int,Customer>(initialCustomers.associateBy(Customer::id))
 
-    override fun getCustomer(id: Int) = customers[id]
+    override fun getCustomer(id: Int) = customers[id]?.toMono()
 
     override fun searchCustomer(nameFilter: String): List<Customer> =
         customers.filter {

@@ -3,6 +3,7 @@ package com.microservices.ch4
 import com.microservices.ch4.Customer.Telephone
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import reactor.core.publisher.toFlux
 import reactor.core.publisher.toMono
 import reactor.kotlin.core.publisher.toMono
@@ -23,5 +24,11 @@ class CustomerServiceImpl : CustomerService {
         customers.filter {
             it.value.name.contains(nameFilter, true)
         }.map(Map.Entry<Int, Customer>::value).toFlux()
+
+    override fun createCustomer(customerMono: Mono<Customer>): Mono<*> {
+        return customerMono.subscribe {
+            customers[it.id] = it
+        }.toMono()
+    }
 
 }
